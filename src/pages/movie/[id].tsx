@@ -6,11 +6,9 @@ import { env } from "@/services/env/client";
 import { useMovieCast, useMovieDetail } from "@/services/hooks/apis/movies";
 import { ArrowLeft } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useRouter } from "next/router";
 import React, { memo } from "react";
 
 const MoviePage = memo(() => {
-  const router = useRouter();
   const params = useParams(); // returns { id: '123' } if route is /movies/123
   const movieId = params?.id;
 
@@ -20,7 +18,7 @@ const MoviePage = memo(() => {
     <div className="min-h-screen bg-background text-white">
       {/* Back Button Here */}
       <div className="absolute top-10 z-100 left-10 p-4">
-        <Button onClick={() => router.back()} variant="ghost" rounded="full" size="lg">
+        <Button onClick={() => window.history.back()} variant="ghost" rounded="full" size="lg">
           <ArrowLeft className="h-6 w-6" />
           Back To Movies
         </Button>

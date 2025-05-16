@@ -4,17 +4,17 @@ import Page from "@/pages/index";
 import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-// Mock module secara sinkron tanpa async
+// Mock environment variables
 vi.mock('@/services/env/client', () => ({
   env: {
     NEXT_PUBLIC_TMDB_API_KEY: "432d22aa2b19186fca95b930978acb76",
     NEXT_PUBLIC_TMDB_API_URL: "https://api.themoviedb.org/3/",
-    NEXT_PUBLIC_TMDB_API_READ_ACCESS_TOKEN: "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MzJkMjJhYTJiMTkxODZmY2E5NWI5MzA5NzhhY2I3NiIsIm5iZiI6MS42NDgzNjM5MTIzMjcwMDAxZSs5LCJzdWIiOiI2MjQwMDk4OGFlMjgxMTAwNWM0ZDhhZWIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGpAkxZjL_m8fdWoj0-KB-wzc53n5iWzxwioPQjNwiA",
+    NEXT_PUBLIC_TMDB_API_READ_ACCESS_TOKEN: "token",
     NEXT_PUBLIC_TMDB_IMAGE_URL: "https://image.tmdb.org/t/p/original",
   }
 }));
 
-// Mock the hooks and env module
+// Mock hooks
 vi.mock("@/services/hooks/apis/movies", () => ({
   useMovies: vi.fn(() => ({
     data: { pages: [] },
@@ -40,6 +40,21 @@ vi.mock("@/services/hooks/apis/movies", () => ({
   })),
 }));
 
+// Optionally mock useRouter if your Page uses it
+vi.mock("next/navigation", () => ({
+  usePathname: () => '/mocked-path',
+  useRouter: () => ({
+    back: vi.fn(),
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    prefetch: vi.fn(),
+    pathname: "/",
+    route: "/",
+    query: {},
+    asPath: "/",
+  }),
+}));
 
 describe("Page component", () => {
   it("renders correctly with mocked data", () => {
@@ -51,10 +66,7 @@ describe("Page component", () => {
       </QueryClientProvider>
     );
 
-    // Check for Popular Movies section title (empty list but title should be there)
     expect(screen.getByText("Popular Movies")).toBeInTheDocument();
-
-    // Check for Upcoming Movies section title
     expect(screen.getByText("Upcoming Movies")).toBeInTheDocument();
   });
 });
