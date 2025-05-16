@@ -1,13 +1,15 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import MovieWrapper from "@/components/molecules/movie-wrapper";
 import Navbar from "@/components/molecules/navbar";
 import { useDiscoverMovies } from "@/services/hooks/apis/movies";
+import SearchDialog from "@/components/molecules/search-dialog";
 
 const SearchPage = memo(() => {
+  const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
 
@@ -25,9 +27,7 @@ const SearchPage = memo(() => {
   return (
     <div className="bg-background text-white">
       <Navbar
-        onClickSearch={() => {
-          // trigger search dialog logic
-        }}
+        onClickSearch={() => setOpen(true)}
       />
       <div className="container w-full h-full py-20">
         <h1 className="px-20 text-4xl font-bold">{title}</h1>
@@ -43,6 +43,7 @@ const SearchPage = memo(() => {
           hasNextPage={moviesQuery.hasNextPage}
         />
       </div>
+      <SearchDialog open={open} setOpen={setOpen} />
     </div>
   );
 });
