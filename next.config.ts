@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['picsum.photos', 'image.tmdb.org'],
   },
-  swcMinify: true,  // SWC minification + transformation
 };
 
 export default nextConfig;

@@ -1,6 +1,5 @@
 import { memo, useMemo, useState } from "react";
 // global styles
-import "@/styles/globals.css";
 import Navbar from "@/components/molecules/navbar";
 import Banner from "@/components/molecules/banner";
 import { useMovieDetail, useMovies } from "@/services/hooks/apis/movies";
